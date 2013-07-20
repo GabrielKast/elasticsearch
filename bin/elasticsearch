@@ -35,7 +35,7 @@
 # Another option is to specify the full path to the include file in the
 # environment. For example:
 #
-#   $ ES_INCLUDE=/path/to/in.sh elasticsearch -p /var/run/es.pid
+#   $ export ES_INCLUDE=/path/to/in.sh && elasticsearch -p /var/run/es.pid
 #
 # Note: This is particularly handy for running multiple instances on a
 # single installation, or for quick tests.
