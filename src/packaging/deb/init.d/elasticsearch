@@ -166,6 +166,10 @@ case "$1" in
 	fi
 
 	# Start Daemon
+	# FIXME : does not start ...
+	# When i echo the command (without the ".." the printed command works)
+	# echo start-stop-daemon --start -b --user elasticsearch -c elasticsearch --pidfile /var/run/elasticsearch.pid --exec /usr/share/elasticsearch/bin/elasticsearch -- -d -p /var/run/elasticsearch.pid --default.config=/etc/elasticsearch/elasticsearch.yml --default.path.home=/usr/share/elasticsearch --default.path.logs=/var/log/elasticsearch --default.path.data=/var/lib/elasticsearch --default.path.work=/tmp/elasticsearch --default.path.conf=/etc/elasticsearch
+	# TODO find the issue
 	start-stop-daemon --start -b --user "$ES_USER" -c "$ES_USER" --pidfile "$PID_FILE" --exec $DAEMON -- $DAEMON_OPTS
 	return=$?
 	if [ $return -eq 0 ]
@@ -177,10 +181,15 @@ case "$1" in
 		do
 			sleep 1
 			i=$(($i + 1))
-			[ $i -gt $timeout ] && log_end_msg 1
+			if [ $i -gt $timeout ]
+			then
+			    log_end_msg 1
+			    exit 1
+			fi
 		done
 	else
 		log_end_msg $return
+	         exit $return
 	fi
 	;;		
   stop)
